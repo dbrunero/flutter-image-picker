@@ -1,16 +1,67 @@
-# image_picker_demo
+import 'dart:io';
 
-A new Flutter project.
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-## Getting Started
+void main() => runApp(MaterialApp(
+  home: MyHomePage(),
+));
 
-This project is a starting point for a Flutter application.
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-A few resources to get you started if this is your first Flutter project:
+class _MyHomePageState extends State<MyHomePage> {
+  File _image;
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+  Future getCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    setState(() {
+      _image = image;
+    });
+  }
+
+
+  Future getGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image Picker Example'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.landscape,),
+            onPressed: getGallery,
+          ),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: (){
+              setState(() {
+                _image = null;
+              });
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: _image == null
+            ? Text('Nothing to show.')
+            : Image.file(_image),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: getCamera,
+        child: Icon(Icons.camera_alt),
+      ),
+    );
+  }
+}
