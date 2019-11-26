@@ -1,19 +1,7 @@
-import image_picker plugin and then use it in this way.
+Look at the main.dart
+is very simple to understand.
 
-  Future getCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-
-    setState(() {
-      _image = image;
-    });
-  }
-
-
-  Future getGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = image;
-    });
-  }
-
+Steps:
+1. Import image_picker plugin
+2. Call ImagePicker classes
+3. Enjoy
